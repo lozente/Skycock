@@ -66,11 +66,13 @@ class Match(db.Model):
     event: Mapped[Event] = relationship()
     started_at: Mapped[datetime] = mapped_column(nullable=True)
     ended_at: Mapped[datetime] = mapped_column(nullable=True)
+    team_1_score: Mapped[int] = mapped_column(nullable=True)
+    team_2_score: Mapped[int] = mapped_column(nullable=True)
     status: Mapped[str] = mapped_column(
         "status", ChoiceType(STATUS_TYPES), default="not_started"
     )
     type: Mapped[str] = mapped_column("type", ChoiceType(TYPES), default="normal")
-    is_modified: Mapped[bool] = mapped_column(default=False)
+    is_score_counted: Mapped[bool] = mapped_column(default=False)
 
 
 class ScoreRecord(db.Model):

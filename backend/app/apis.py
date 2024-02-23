@@ -3,8 +3,8 @@ from typing import Optional
 
 from sqlalchemy import extract
 
-from backend.models import Event
-from backend.utils import get_current_standard_quarter
+from backend.app.model.match import Event
+from backend.app.common.utils import get_current_standard_quarter
 
 
 def get_current_month_tournament_event() -> Optional[Event]:

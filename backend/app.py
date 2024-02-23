@@ -16,6 +16,6 @@ app.config.from_mapping(
 migrate = Migrate(app, db)
 db.init_app(app)
 with app.app_context():
-    import backend.models
+    from backend.app.model import *
 
     db.create_all()

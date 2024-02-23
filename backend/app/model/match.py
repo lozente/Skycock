@@ -5,20 +5,34 @@ from sqlalchemy import Column, ForeignKey, Table
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy_utils import ChoiceType
 
-from backend.app import db
-from backend.app.model.member import Member
+from backend.app.model import constants
+from backend.app.model.member import MemberDTO
+from backend.wsgi import db
 
 
-class Event(db.Model):
+class EventDTO(db.Model):
     TYPES = [
-        ("regular", "정기모임"),
-        ("tournament", "스콕대전"),
-        ("etc", "기타"),
+        (constants.EVENT_TYPE__REGULAR, constants.EVENT_TYPE_LABEL__REGULAR),
+        (constants.EVENT_TYPE__TOURNAMENT, constants.EVENT_TYPE_LABEL__TOURNAMENT),
+        (constants.EVENT_TYPE__ETC, constants.EVENT_TYPE_LABEL__ETC),
     ]
     STATUS_TYPES = [
-        ("not_started", "준비중"),
-        ("finished", "완료됨"),
-        ("cancelled", "취소됨"),
+        (
+            constants.EVENT_STATUS_TYPE__NOT_STARTED,
+            constants.EVENT_STATUS_TYPE_LABEL__NOT_STARTED,
+        ),
+        (
+            constants.EVENT_STATUS_TYPE__IN_PROGRESS,
+            constants.EVENT_STATUS_TYPE_LABEL__IN_PROGRESS,
+        ),
+        (
+            constants.EVENT_STATUS_TYPE__FINISHED,
+            constants.EVENT_STATUS_TYPE_LABEL__FINISHED,
+        ),
+        (
+            constants.EVENT_STATUS_TYPE__CANCELLED,
+            constants.EVENT_STATUS_TYPE_LABEL__CANCELLED,
+        ),
     ]
     event_member_association = Table(
         "event_member_association",
@@ -33,22 +47,34 @@ class Event(db.Model):
     status: Mapped[str] = mapped_column(
         "status", ChoiceType(STATUS_TYPES), default="not_started"
     )
-    participants: Mapped[set[Member]] = relationship(
+    participants: Mapped[set[MemberDTO]] = relationship(
         "Member", secondary=event_member_association
     )
 
 
-class Match(db.Model):
-    STATUS_TYPES = [
-        ("not_started", "대기중"),
-        ("in_progress", "진행중"),
-        ("finished", "완료됨"),
-        ("cancelled", "취소됨"),
-    ]
+class MatchDTO(db.Model):
     TYPES = [
-        ("normal", "일반"),
-        ("ranked", "시드"),
-        ("extra", "번외"),
+        (constants.MATCH_TYPE__NORMAL, constants.MATCH_TYPE_LABEL__NORMAL),
+        (constants.MATCH_TYPE__RANKED, constants.MATCH_TYPE_LABEL__RANKED),
+        (constants.MATCH_TYPE__EXTRA, constants.MATCH_TYPE_LABEL__EXTRA),
+    ]
+    STATUS_TYPES = [
+        (
+            constants.MATCH_STATUS_TYPE__NOT_STARTED,
+            constants.MATCH_STATUS_TYPE_LABEL__NOT_STARTED,
+        ),
+        (
+            constants.MATCH_STATUS_TYPE__IN_PROGRESS,
+            constants.MATCH_STATUS_TYPE_LABEL__IN_PROGRESS,
+        ),
+        (
+            constants.MATCH_STATUS_TYPE__FINISHED,
+            constants.MATCH_STATUS_TYPE_LABEL__FINISHED,
+        ),
+        (
+            constants.MATCH_STATUS_TYPE__CANCELLED,
+            constants.MATCH_STATUS_TYPE_LABEL__CANCELLED,
+        ),
     ]
 
     team_1_player_1_id: Mapped[int] = mapped_column(ForeignKey("member.id"))
@@ -62,19 +88,19 @@ class Match(db.Model):
     event_id: Mapped[int] = mapped_column(ForeignKey("event.id"))
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    team_1_player_1: Mapped[Member] = relationship(
+    team_1_player_1: Mapped[MemberDTO] = relationship(
         "Member", foreign_keys=[team_1_player_1_id]
     )
-    team_1_player_2: Mapped[Member] = relationship(
+    team_1_player_2: Mapped[MemberDTO] = relationship(
         "Member", foreign_keys=[team_1_player_2_id]
     )
-    team_2_player_1: Mapped[Member] = relationship(
+    team_2_player_1: Mapped[MemberDTO] = relationship(
         "Member", foreign_keys=[team_2_player_1_id]
     )
-    team_2_player_2: Mapped[Member] = relationship(
+    team_2_player_2: Mapped[MemberDTO] = relationship(
         "Member", foreign_keys=[team_2_player_2_id]
     )
-    event: Mapped[Event] = relationship()
+    event: Mapped[EventDTO] = relationship()
     created_at: Mapped[datetime] = mapped_column()
     started_at: Mapped[datetime] = mapped_column(nullable=True)
     ended_at: Mapped[datetime] = mapped_column(nullable=True)

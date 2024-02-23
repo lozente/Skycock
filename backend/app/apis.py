@@ -3,16 +3,16 @@ from typing import Optional
 
 from sqlalchemy import extract
 
-from backend.app.model.match import Event
+from backend.app.model.match import EventDTO
 from backend.app.common.utils import get_current_standard_quarter
 
 
-def get_current_month_tournament_event() -> Optional[Event]:
+def get_current_month_tournament_event() -> Optional[EventDTO]:
     now = datetime.now()
-    tournament_event = Event.query.filter(
-        Event.type == "tournament",
-        extract("year", Event.event_date) == now.year,
-        extract("month", Event.event_date) == now.month,
+    tournament_event = EventDTO.query.filter(
+        EventDTO.type == "tournament",
+        extract("year", EventDTO.event_date) == now.year,
+        extract("month", EventDTO.event_date) == now.month,
     ).first()
 
     return tournament_event

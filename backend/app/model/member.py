@@ -5,16 +5,17 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy_utils import ChoiceType, PhoneNumberType
 
-from backend.app import db
-from backend.app.model.member import Member
+from backend.app.model import constants
+from backend.app.model.member import MemberDTO
+from backend.wsgi import db
 
 
-class Member(db.Model):
+class MemberDTO(db.Model):
     TYPES = [
-        ("guest", "게스트"),
-        ("new", "신규회원"),
-        ("excellent", "우수회원"),
-        ("special", "특별회원"),
+        (constants.MEMBER_TYPE__GUEST, constants.MEMBER_TYPE_LABEL__GUEST),
+        (constants.MEMBER_TYPE__NEW, constants.MEMBER_TYPE_LABEL__NEW),
+        (constants.MEMBER_TYPE__EXCELLENT, constants.MEMBER_TYPE_LABEL__EXCELLENT),
+        (constants.MEMBER_TYPE__SPECIAL, constants.MEMBER_TYPE_LABEL__SPECIAL),
     ]
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -29,11 +30,11 @@ class Member(db.Model):
         return f"<Member {self.nickname}>"
 
 
-class ScoreRecord(db.Model):
+class ScoreRecordDTO(db.Model):
     player_id: Mapped[int] = mapped_column(ForeignKey("member.id"))
 
     id: Mapped[int] = mapped_column(primary_key=True)
     quarter: Mapped[str]
     record_date: Mapped[date] = mapped_column(default=datetime.now().date())
-    player: Mapped[Member] = relationship()
+    player: Mapped[MemberDTO] = relationship()
     score: Mapped[float] = mapped_column(default=0.0)

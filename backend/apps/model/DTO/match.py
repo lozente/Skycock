@@ -4,13 +4,15 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy_utils import ChoiceType
 
-from backend.app.model import constants
-from backend.app.model.DTO.event import EventDTO
-from backend.app.model.DTO.member import MemberDTO
-from backend.wsgi import db
+from apps.model import constants
+from apps.model.db import db
+from apps.model.DTO.event import EventDTO
+from apps.model.DTO.member import MemberDTO
 
 
 class MatchDTO(db.Model):
+    __tablename__ = "match"
+
     TYPES = [
         (constants.MATCH_TYPE__NORMAL, constants.MATCH_TYPE_LABEL__NORMAL),
         (constants.MATCH_TYPE__RANKED, constants.MATCH_TYPE_LABEL__RANKED),
@@ -59,7 +61,8 @@ class MatchDTO(db.Model):
         "Member", foreign_keys=[team_2_player_2_id]
     )
     event: Mapped[EventDTO] = relationship()
-    created_at: Mapped[datetime] = mapped_column()
+    round: Mapped[int] = mapped_column(nullable=True)
+    created_at: Mapped[datetime] = mapped_column(default=datetime.now())
     started_at: Mapped[datetime] = mapped_column(nullable=True)
     ended_at: Mapped[datetime] = mapped_column(nullable=True)
     team_1_score: Mapped[int] = mapped_column(nullable=True)
@@ -67,5 +70,6 @@ class MatchDTO(db.Model):
     status: Mapped[str] = mapped_column(
         "status", ChoiceType(STATUS_TYPES), default="not_started"
     )
-    type: Mapped[str] = mapped_column("type", ChoiceType(TYPES), default="normal")
-    is_score_counted: Mapped[bool] = mapped_column(default=False)
+    match_type: Mapped[str] = mapped_column(
+        "match_type", ChoiceType(TYPES), default="normal"
+    )

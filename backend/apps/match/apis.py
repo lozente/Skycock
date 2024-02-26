@@ -1,9 +1,9 @@
-from backend.wsgi import db
-from backend.app.matches.match_maker import REGULAR_EVENT_MATCH_MAKING_MAP_BY_RANK
-from backend.app.member import apis as member_apis
-from backend.app.model import constants
-from backend.app.model.DTO.event import EventDTO
-from backend.app.model.DTO.match import MatchDTO
+from app import db
+from apps.match.match_maker import REGULAR_EVENT_MATCH_MAKING_MAP_BY_RANK
+from apps.member import apis as member_apis
+from apps.model import constants
+from apps.model.DTO.event import EventDTO
+from apps.model.DTO.match import MatchDTO
 
 
 def create_event(

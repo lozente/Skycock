@@ -1,4 +1,4 @@
-from backend.app.model.entities.entity import Entity
+from apps.model.entities.entity import Entity
 
 
 class Member(Entity):

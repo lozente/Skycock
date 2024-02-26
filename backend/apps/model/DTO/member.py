@@ -5,12 +5,13 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy_utils import ChoiceType, PhoneNumberType
 
-from backend.app.model import constants
-from backend.app.model.DTO.member import MemberDTO
-from backend.wsgi import db
+from apps.model import constants
+from apps.model.db import db
 
 
 class MemberDTO(db.Model):
+    __tablename__ = "member"
+
     TYPES = [
         (constants.MEMBER_TYPE__GUEST, constants.MEMBER_TYPE_LABEL__GUEST),
         (constants.MEMBER_TYPE__NEW, constants.MEMBER_TYPE_LABEL__NEW),
@@ -33,6 +34,8 @@ class MemberDTO(db.Model):
 
 
 class ScoreRecordDTO(db.Model):
+    __tablename__ = "score_record"
+
     player_id: Mapped[int] = mapped_column(ForeignKey("member.id"))
 
     id: Mapped[int] = mapped_column(primary_key=True)

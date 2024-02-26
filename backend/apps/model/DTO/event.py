@@ -4,12 +4,14 @@ from sqlalchemy import Column, ForeignKey, Table
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy_utils import ChoiceType
 
-from backend.app.model import constants
-from backend.app.model.DTO.member import MemberDTO
-from backend.wsgi import db
+from apps.model import constants
+from apps.model.db import db
+from apps.model.DTO.member import MemberDTO
 
 
 class EventDTO(db.Model):
+    __tablename__ = "event"
+
     TYPES = [
         (constants.EVENT_TYPE__REGULAR, constants.EVENT_TYPE_LABEL__REGULAR),
         (constants.EVENT_TYPE__TOURNAMENT, constants.EVENT_TYPE_LABEL__TOURNAMENT),

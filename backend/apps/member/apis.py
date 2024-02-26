@@ -1,4 +1,4 @@
-from backend.app.model.DTO.member import MemberDTO
+from apps.model.DTO.member import MemberDTO
 
 
 def get_members_by_ids(member_ids: list[int]) -> list[MemberDTO]:

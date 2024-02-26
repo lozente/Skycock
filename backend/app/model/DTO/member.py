@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy_utils import ChoiceType, PhoneNumberType
 
 from backend.app.model import constants
-from backend.app.model.member import MemberDTO
+from backend.app.model.DTO.member import MemberDTO
 from backend.wsgi import db
 
 
@@ -23,7 +23,9 @@ class MemberDTO(db.Model):
     phone: Mapped[str] = mapped_column(
         "phone", PhoneNumberType(region="KR"), unique=True, nullable=True
     )
-    type: Mapped[str] = mapped_column("type", ChoiceType(TYPES), default="guest")
+    member_type: Mapped[str] = mapped_column(
+        "member_type", ChoiceType(TYPES), default="guest"
+    )
     is_staff: Mapped[bool] = mapped_column(default=False)
 
     def __repr__(self):

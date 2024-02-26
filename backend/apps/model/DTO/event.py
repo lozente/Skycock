@@ -51,5 +51,5 @@ class EventDTO(db.Model):
         "status", ChoiceType(STATUS_TYPES), default="not_started"
     )
     participants: Mapped[set[MemberDTO]] = relationship(
-        "Member", secondary=event_member_association
+        "MemberDTO", secondary=event_member_association
     )

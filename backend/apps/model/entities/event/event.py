@@ -2,6 +2,7 @@ from __future__ import annotations
 from abc import abstractmethod
 from datetime import date
 
+from apps.model.DTO.event import EventDTO
 from apps.model.DTO.member import MemberDTO
 from apps.model.entities.entity import Entity
 from apps.model.entities.match.match import Match
@@ -9,6 +10,8 @@ from apps.model.entities.member.member import Member
 
 
 class Event(Entity):
+    dto_class = EventDTO
+
     def __init__(
         self,
         id: int,

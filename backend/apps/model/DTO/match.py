@@ -49,16 +49,16 @@ class MatchDTO(db.Model):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     team_1_player_1: Mapped[MemberDTO] = relationship(
-        "Member", foreign_keys=[team_1_player_1_id]
+        "MemberDTO", foreign_keys=[team_1_player_1_id]
     )
     team_1_player_2: Mapped[MemberDTO] = relationship(
-        "Member", foreign_keys=[team_1_player_2_id]
+        "MemberDTO", foreign_keys=[team_1_player_2_id]
     )
     team_2_player_1: Mapped[MemberDTO] = relationship(
-        "Member", foreign_keys=[team_2_player_1_id]
+        "MemberDTO", foreign_keys=[team_2_player_1_id]
     )
     team_2_player_2: Mapped[MemberDTO] = relationship(
-        "Member", foreign_keys=[team_2_player_2_id]
+        "MemberDTO", foreign_keys=[team_2_player_2_id]
     )
     event: Mapped[EventDTO] = relationship()
     round: Mapped[int] = mapped_column(nullable=True)

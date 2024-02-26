@@ -1,7 +1,10 @@
+from apps.model.DTO.member import MemberDTO
 from apps.model.entities.entity import Entity
 
 
 class Member(Entity):
+    dto_class = MemberDTO
+
     def __init__(
         self, id: int, nickname: str, phone: str, member_type: str, is_staff: bool
     ) -> None:
